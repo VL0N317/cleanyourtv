@@ -2833,8 +2833,23 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 wallpaperPlayer.loadCustomWallpaper(dest);
             }
             String name = chosen.getName().replace(".jpg", "").replace("_", " ").toUpperCase();
-            android.widget.Toast.makeText(this, "Wallpaper: " + name + "\nUpload custom from phone at 192.168.1.144:8080", android.widget.Toast.LENGTH_SHORT).show();
+            android.widget.Toast.makeText(this, "Wallpaper: " + name + "\nUpload custom from phone at " + getDeviceIpAddress() + ":8080", android.widget.Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {}
+    }
+
+    private String getDeviceIpAddress() {
+        try {
+            for (java.util.Enumeration<java.net.NetworkInterface> en = java.net.NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+                java.net.NetworkInterface intf = en.nextElement();
+                for (java.util.Enumeration<java.net.InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                    java.net.InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress() && inetAddress instanceof java.net.Inet4Address) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (Exception ignored) {}
+        return "192.168.0.144";
     }
 
     private static void copyFile(java.io.File src, java.io.File dst) throws java.io.IOException {
