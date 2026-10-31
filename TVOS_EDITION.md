@@ -129,13 +129,10 @@ This guarantees non-root processes and CleanYourTV retain direct kernel stream a
 * **Virtual Mouse Pointer**: Real-time cursor navigation for mobile-ported apps requiring mouse clicks.
 * **1-Tap Photo Upload**: Select any photo or wallpaper on your smartphone camera roll. The web remote encodes the image to Base64, uploads it to `/sdcard/wallpapers/custom.jpg`, and instructs `WallpaperPlayer` to immediately switch backgrounds without closing running apps.
 
-### Live Captures from Phone Camera Roll Uploads
-| 3D Neon Ribbon Glow | Frank Ocean Nostalgia BMW E30 | Dynamic Aurora Preset | City Lights Preset |
+### Custom Wallpapers & Presets
+| Custom Wallpaper (Frank Ocean BMW E30) | Custom Uploaded Art | Dynamic Aurora Preset | City Lights Preset |
 |:---:|:---:|:---:|:---:|
-| ![Neon Ribbon](docs/tvos-edition/wallpaper_neon_ribbon_cropped.jpg) | ![BMW Nostalgia](docs/tvos-edition/wallpaper_bmw_cropped.jpg) | ![Aurora](docs/tvos-edition/wallpaper_aurora.png) | ![City Lights](docs/tvos-edition/wallpaper_city.png) |
-
-### Real-World Living Room Setup
-![Living Room Setup with CleanYourTV](docs/tvos-edition/real_setup_neon_ribbon.jpg)
+| ![BMW Nostalgia](docs/tvos-edition/wallpaper_bmw.png) | ![Custom Upload](docs/tvos-edition/wallpaper_phone_upload.png) | ![Aurora](docs/tvos-edition/wallpaper_aurora.png) | ![City Lights](docs/tvos-edition/wallpaper_city.png) |
 
 ---
 
