@@ -32,6 +32,10 @@ until the 19th; old links work.
 
 **Themes, switches and add-ons:** [cleanyour.tv/addons](https://cleanyour.tv/addons)
 
+> [!TIP]
+> **Featured Fork — CleanYourTV Apple TV Edition by P Dheeraj (@VL0N317):** [Read the Engineering Showcase & Guide →](APPLE_TV_EDITION.md)
+> Turning a \$15 2018 Amlogic TV box (<1GB RAM) into an Apple TV experience with a sub-15ms direct Linux kernel input engine, tvOS glassmorphic dock, and a local web remote with 1-tap phone camera roll wallpaper uploads.
+
 **Official links:** the website is [cleanyour.tv](https://cleanyour.tv) and the code, launcher and
 tools live only in this repo. Other domains using the name, such as cleanyourtv.com, are not run by
 this project ([#1004](https://github.com/Gathin23/cleanyourtv/issues/1004)).

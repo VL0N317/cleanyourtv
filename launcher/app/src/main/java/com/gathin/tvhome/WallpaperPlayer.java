@@ -259,6 +259,26 @@ final class WallpaperPlayer {
         return key.toString();
     }
 
+    void loadCustomWallpaper(File file) {
+        if (file == null || !file.exists()) return;
+        decoder.execute(() -> {
+            Bitmap bitmap = decode(file);
+            root.post(() -> {
+                if (closed) {
+                    if (bitmap != null) bitmap.recycle();
+                    return;
+                }
+                if (bitmap != null) {
+                    if (image.getParent() == null) {
+                        root.addView(image, 0, new FrameLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    }
+                    show(bitmap);
+                }
+            });
+        });
+    }
+
     /** Puts a picture on screen and releases the previous one after a frame has drawn the new one. */
     private void show(Bitmap bitmap) {
         Bitmap old = current;

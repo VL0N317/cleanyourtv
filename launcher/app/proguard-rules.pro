@@ -2,3 +2,7 @@
 # AndroidX code, not from renaming, and readable stack traces matter more in a sideloaded app
 # where crash reports arrive as screenshots.
 -dontobfuscate
+
+-keep class com.gathin.tvhome.AdbClient { *; }
+-keep class com.gathin.tvhome.LinuxInputClient { *; }
+-keep class com.gathin.tvhome.WebRemoteService { *; }

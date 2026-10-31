@@ -165,11 +165,10 @@
 
             <LinearLayout
                 android:id="@+id/leftBlock"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_toStartOf="@+id/topButtons"
-                android:layout_marginEnd="16dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <!-- The header texts use gravity left, not start: the launcher lays out left to right
@@ -177,12 +176,11 @@
                      right edge of these full-width lines instead of staying under the clock. -->
                 <TextView
                     android:id="@+id/greeting"
-                    android:gravity="left"
-                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:layout_marginStart="4dp"
                     android:textColor="#8CFFFFFF"
                     android:textSize="12sp"
                     android:fontFamily="@string/font_medium"
@@ -190,9 +188,10 @@
                     android:textAllCaps="true" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:gravity="center_horizontal"
                     android:baselineAligned="true">
 
                     <TextClock
@@ -202,9 +201,10 @@
                         android:format12Hour="h:mm"
                         android:format24Hour="HH:mm"
                         android:textColor="#FFFFFFFF"
-                        android:textSize="52sp"
-                        android:fontFamily="@string/font_light"
-                        android:letterSpacing="-0.04"
+                        android:textSize="80sp"
+                        android:fontFamily="@string/font_bold"
+                        android:textStyle="bold"
+                        android:letterSpacing="-0.03"
                         android:includeFontPadding="false" />
 
                     <TextClock
@@ -220,7 +220,8 @@
                         android:textSize="15sp"
                         android:fontFamily="@string/font_medium"
                         android:letterSpacing="0.08"
-                        android:textAllCaps="true" />
+                        android:textAllCaps="true"
+                        android:visibility="gone" />
 
                     <View
                         android:id="@+id/clockDivider"
@@ -230,21 +231,21 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="8dp"
-                        android:background="#33FFFFFF" />
+                        android:background="#33FFFFFF"
+                        android:visibility="gone" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginBottom="9dp"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <!-- Shamsi date ("27 Mehr 1405"), shown when shamsi_date is on. -->
                         <TextView
                             android:id="@+id/shamsiDate"
-                            android:gravity="left"
-                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:ellipsize="end"
@@ -257,8 +258,8 @@
 
                         <TextClock
                             android:id="@+id/date"
-                            android:gravity="left"
-                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:singleLine="@bool/date_single_line"
                             android:maxLines="2"
@@ -266,17 +267,17 @@
                             android:ellipsize="end"
                             android:format12Hour="@string/date_format_home"
                             android:format24Hour="@string/date_format_home"
-                            android:textColor="#A6FFFFFF"
-                            android:textSize="14sp"
-                            android:fontFamily="@string/font_regular"
-                            android:letterSpacing="0.14"
+                            android:textColor="#CCFFFFFF"
+                            android:textSize="16sp"
+                            android:fontFamily="@string/font_medium"
+                            android:letterSpacing="0.08"
                             android:textAllCaps="true" />
 
                         <!-- Lunar date ("Lunar 13/9 · Year of the Horse"), shown when lunar_date is on. -->
                         <TextView
                             android:id="@+id/lunarDate"
-                            android:gravity="left"
-                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:singleLine="true"
@@ -298,8 +299,8 @@
                 android:id="@+id/stats"
                 android:layout_width="wrap_content"
                 android:layout_below="@id/leftBlock"
-                android:layout_alignStart="@id/leftBlock"
-                android:gravity="left"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:singleLine="true"
@@ -311,13 +312,25 @@
                 android:focusable="false"
                 android:visibility="gone" />
 
+            <TextView
+                android:id="@+id/btnProfile"
+                style="@style/TopButtonIcon"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="36dp"
+                android:contentDescription="Profile and Wallpaper"
+                android:drawableStart="@drawable/ic_apple_profile"
+                android:nextFocusDown="@+id/grid"
+                android:nextFocusRight="@+id/btnWifi" />
+
             <LinearLayout
                 android:id="@+id/topButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignBottom="@id/leftBlock"
-                android:layout_marginBottom="6dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="horizontal">
@@ -337,6 +350,7 @@
                     android:ellipsize="end"
                     android:text="@string/wifi"
                     android:drawableStart="@drawable/ic_wifi"
+                    android:nextFocusLeft="@+id/btnProfile"
                     android:nextFocusDown="@+id/grid" />
 
                 <TextView

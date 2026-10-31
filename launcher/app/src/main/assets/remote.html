@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TV Remote">
+<meta name="theme-color" content="#121316">
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' rx='28' fill='%23121316'/><circle cx='60' cy='60' r='42' fill='%231e2027' stroke='%23333640' stroke-width='4'/><circle cx='60' cy='60' r='18' fill='%232c2f3a' stroke='%2300d2ff' stroke-width='3'/><circle cx='60' cy='32' r='4' fill='%2334c759'/></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' rx='28' fill='%23121316'/><circle cx='60' cy='60' r='42' fill='%231e2027' stroke='%23333640' stroke-width='4'/><circle cx='60' cy='60' r='18' fill='%232c2f3a' stroke='%2300d2ff' stroke-width='3'/><circle cx='60' cy='32' r='4' fill='%2334c759'/></svg>">
+<title>Hivendor Remote</title>
+<style>
+  :root {
+    --bg-dark: #0f1013;
+    --chassis: #18191e;
+    --chassis-border: #2c2d35;
+    --btn-bg: #23252c;
+    --btn-border: #333640;
+    --btn-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);
+    --btn-active: inset 0 3px 6px rgba(0,0,0,0.6), 0 1px 2px rgba(0,0,0,0.4);
+    --accent-cyan: #00d2ff;
+    --accent-red: #ff3b30;
+    --accent-amber: #ff9500;
+    --accent-green: #34c759;
+    --accent-blue: #0a84ff;
+    --text-primary: #f0f0f3;
+    --text-muted: #8e909a;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  body {
+    background-color: var(--bg-dark);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: env(safe-area-inset-top, 12px) env(safe-area-inset-right, 12px) env(safe-area-inset-bottom, 12px) env(safe-area-inset-left, 12px);
+    overflow-x: hidden;
+  }
+  .remote-container {
+    width: 100%;
+    max-width: 380px;
+    background: linear-gradient(165deg, #20222a 0%, #15161b 50%, #0d0e12 100%);
+    border-radius: 44px;
+    border: 1px solid var(--chassis-border);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 2px rgba(255,255,255,0.15);
+    padding: 24px 20px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+  }
+  /* Status Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 2px;
+  }
+  .device-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pulse-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: var(--accent-green);
+    box-shadow: 0 0 8px var(--accent-green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+  .device-name {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: var(--text-primary);
+  }
+  .header-actions {
+    display: flex;
+    gap: 10px;
+  }
+  /* Buttons Common */
+  .btn {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: linear-gradient(145deg, #282b34, #1e2027);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--btn-shadow);
+    color: var(--text-primary);
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.08s ease;
+  }
+  .btn:active {
+    transform: scale(0.93) translateY(2px);
+    box-shadow: var(--btn-active);
+    background: #17181f;
+  }
+  .btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    pointer-events: none;
+  }
+  /* Header Mini Buttons */
+  .btn-mini {
+    width: 38px;
+    height: 38px;
+  }
+  .btn-power {
+    color: var(--accent-red);
+    background: linear-gradient(145deg, #301f22, #211316);
+    border-color: rgba(255,59,48,0.25);
+  }
+  .btn-power:active {
+    background: #180d0f;
+  }
+  .btn-mute {
+    color: var(--accent-amber);
+  }
+  .btn-wallpaper {
+    color: var(--accent-cyan);
+    background: linear-gradient(145deg, #1b2636, #121c27);
+    border-color: rgba(0, 210, 255, 0.25);
+  }
+
+  /* Wallpaper Sheet Modal */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 100;
+    display: none;
+    justify-content: center;
+    align-items: flex-end;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .modal-overlay.open {
+    display: flex;
+    opacity: 1;
+  }
+  .modal-sheet {
+    width: 100%;
+    max-width: 420px;
+    background: linear-gradient(180deg, #20232c 0%, #15161c 100%);
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: none;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+    padding: 20px 20px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transform: translateY(100%);
+    transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+  }
+  .modal-overlay.open .modal-sheet {
+    transform: translateY(0);
+  }
+  .sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .sheet-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sheet-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #2b2e38;
+    color: var(--text-muted);
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .upload-box {
+    background: linear-gradient(135deg, rgba(0,210,255,0.12), rgba(0,122,255,0.08));
+    border: 1.5px dashed rgba(0, 210, 255, 0.45);
+    border-radius: 20px;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .upload-box:active {
+    transform: scale(0.97);
+    background: rgba(0, 210, 255, 0.18);
+  }
+  .upload-box svg {
+    width: 36px;
+    height: 36px;
+    fill: var(--accent-cyan);
+  }
+  .upload-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .upload-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .status-pill {
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.4);
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    color: var(--accent-cyan);
+    display: none;
+  }
+  .presets-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .presets-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .preset-card {
+    background: #22252e;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  .preset-card:active {
+    transform: scale(0.95);
+    border-color: var(--accent-cyan);
+    background: #191b22;
+  }
+  .preset-emoji {
+    font-size: 20px;
+  }
+
+  /* Text Input Bar */
+  .input-bar {
+    display: flex;
+    gap: 8px;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 18px;
+    padding: 6px 8px 6px 14px;
+    align-items: center;
+  }
+  .input-bar input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .input-bar input::placeholder {
+    color: var(--text-muted);
+  }
+  .btn-send {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #007aff, #0055b3);
+    color: #fff;
+  }
+  .btn-del {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: #282a32;
+    color: var(--text-muted);
+  }
+
+  /* Mode Switcher Segment */
+  .mode-bar {
+    display: flex;
+    background: rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 3px;
+    gap: 4px;
+    margin-top: 2px;
+  }
+  .mode-pill {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    border: none;
+    outline: none;
+    border-radius: 14px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .mode-pill svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+  }
+  .mode-pill.active {
+    background: linear-gradient(135deg, #2c303c, #1e2129);
+    color: var(--accent-cyan);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.15);
+  }
+
+  /* Unified Interactive Pad Container */
+  .pad-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 6px 0;
+    position: relative;
+  }
+  .unified-pad {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #1f2128, #131418);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.65), inset 0 1px 2px rgba(255,255,255,0.12);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    touch-action: none;
+    transition: border-radius 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+  }
+  .unified-pad.mouse-mode {
+    border-radius: 36px;
+    border-color: rgba(0, 210, 255, 0.35);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.7), 0 0 20px rgba(0, 210, 255, 0.12), inset 0 1px 2px rgba(255,255,255,0.15);
+  }
+
+  /* Center click ring */
+  .pad-center {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #2b2e38, #1a1c22);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    transition: transform 0.08s ease, background 0.08s ease, opacity 0.2s ease;
+    z-index: 2;
+  }
+  .pad-center.pressed {
+    transform: scale(0.92);
+    background: #14151a;
+  }
+
+  /* Directional Chevrons */
+  .pad-arrow {
+    position: absolute;
+    color: var(--text-muted);
+    pointer-events: none;
+    transition: color 0.1s ease, transform 0.1s ease, opacity 0.2s ease;
+  }
+  .pad-arrow svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+  .pad-arrow-up { top: 10px; left: 50%; transform: translateX(-50%); }
+  .pad-arrow-down { bottom: 10px; left: 50%; transform: translateX(-50%); }
+  .pad-arrow-left { left: 10px; top: 50%; transform: translateY(-50%); }
+  .pad-arrow-right { right: 10px; top: 50%; transform: translateY(-50%); }
+
+  .pad-arrow.active {
+    color: var(--accent-cyan);
+  }
+  .pad-arrow-up.active { transform: translateX(-50%) translateY(-3px) scale(1.2); }
+  .pad-arrow-down.active { transform: translateX(-50%) translateY(3px) scale(1.2); }
+  .pad-arrow-left.active { transform: translateY(-50%) translateX(-3px) scale(1.2); }
+  .pad-arrow-right.active { transform: translateY(-50%) translateX(3px) scale(1.2); }
+
+  /* Mouse Mode Overlay */
+  .mouse-indicator {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    pointer-events: none;
+    color: var(--accent-cyan);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .mouse-indicator svg {
+    width: 32px;
+    height: 32px;
+    fill: currentColor;
+    filter: drop-shadow(0 2px 8px rgba(0, 210, 255, 0.4));
+  }
+  .mouse-mode .mouse-indicator {
+    display: flex;
+  }
+  .mouse-mode .pad-center,
+  .mouse-mode .pad-arrow {
+    opacity: 0;
+  }
+
+  /* Navigation Key Row */
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .btn-nav {
+    flex: 1;
+    height: 48px;
+    border-radius: 24px;
+    display: flex;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+  .btn-nav:active {
+    color: #fff;
+  }
+  .btn-nav.home-btn {
+    color: var(--accent-cyan);
+  }
+
+  /* Media & Volume Cluster */
+  .controls-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  /* Volume Pillar */
+  .volume-pillar {
+    background: linear-gradient(155deg, #1e2027, #131419);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 28px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--btn-shadow);
+  }
+  .btn-rocker {
+    flex: 1;
+    border: none;
+    background: transparent;
+    border-radius: 24px;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background 0.08s ease, transform 0.08s ease;
+  }
+  .btn-rocker:active {
+    background: rgba(255,255,255,0.06);
+    transform: scale(0.95);
+  }
+  .btn-rocker svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+  .rocker-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin: 0 12px;
+  }
+  /* Playback Card */
+  .media-card {
+    background: linear-gradient(155deg, #1e2027, #131419);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 28px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--btn-shadow);
+  }
+  .media-subrow {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 6px;
+  }
+  .btn-media {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+  }
+  .btn-play {
+    width: 100%;
+    height: 48px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #2b303c, #1f222a);
+    color: var(--accent-cyan);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* Quick App Launcher Dock */
+  .app-dock {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 22px;
+    padding: 10px 12px;
+    gap: 6px;
+  }
+  .app-tile {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+    transition: transform 0.08s ease, filter 0.08s ease;
+  }
+  .app-tile:active {
+    transform: scale(0.9);
+    filter: brightness(1.2);
+  }
+  .app-tile svg {
+    width: 22px;
+    height: 22px;
+    fill: #fff;
+    pointer-events: none;
+  }
+  .app-yt { background: linear-gradient(135deg, #1c1c1e, #0e0e10); border: 1px solid #333; }
+  .app-music { background: linear-gradient(135deg, #fa2d48, #d60017); }
+  .app-files { background: linear-gradient(135deg, #0a84ff, #0055b3); }
+  .app-facetime { background: linear-gradient(135deg, #34c759, #248a3d); }
+  .app-settings { background: linear-gradient(135deg, #e5e5ea, #c7c7cc); color: #333; }
+  .app-settings svg { fill: #333; }
+
+  /* Number Pad Collapse */
+  .numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding-top: 4px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease, opacity 0.25s ease;
+    opacity: 0;
+  }
+  .numpad.open {
+    max-height: 220px;
+    opacity: 1;
+  }
+  .btn-num {
+    height: 42px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .numpad-toggle-bar {
+    text-align: center;
+  }
+  .toggle-numpad-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    padding: 2px 10px;
+  }
+  .toggle-numpad-btn:active {
+    color: var(--text-primary);
+  }
+</style>
+</head>
+<body>
+
+<div class="remote-container">
+  <!-- Status Header -->
+  <div class="header">
+    <div class="device-info">
+      <div class="pulse-dot"></div>
+      <div class="device-name">Hivendor 5G PRO</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-mini btn-wallpaper" onclick="openWallpaperModal()" title="Wallpaper &amp; Presets">
+        <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+      </button>
+      <button class="btn btn-mini btn-mute" onclick="sendKey(164)" title="Mute">
+        <svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+      </button>
+      <button class="btn btn-mini btn-power" onclick="sendKey(26)" title="Power / Sleep">
+        <svg viewBox="0 0 24 24"><path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Smart Keyboard Bar -->
+  <form class="input-bar" onsubmit="sendText(event)">
+    <input type="text" id="tvInput" placeholder="Type or paste to TV..." autocomplete="off">
+    <button type="button" class="btn btn-del" onclick="sendKey(67)" title="Backspace">
+      <svg viewBox="0 0 24 24"><path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3 12.59L17.59 17 14 13.41 10.41 17 9 15.59 12.59 12 9 8.41 10.41 7 14 10.59 17.59 7 19 8.41 15.41 12 19 15.59z"/></svg>
+    </button>
+    <button type="submit" class="btn btn-send" title="Send text">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </form>
+
+  <!-- 1-Click Mode Toggle: Swipe Clickpad vs Mouse Trackpad -->
+  <div class="mode-bar">
+    <button type="button" class="mode-pill active" id="btnSwipeMode" onclick="setMode('swipe')">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+      <span>Swipe Clickpad</span>
+    </button>
+    <button type="button" class="mode-pill" id="btnMouseMode" onclick="setMode('mouse')">
+      <svg viewBox="0 0 24 24"><path d="M13 1.07V9h7c0-4.08-3.05-7.44-7-7.93zM4 15c0 4.42 3.58 8 8 8s8-3.58 8-8v-4H4v4zm7-13.93C7.05 1.56 4 4.92 4 9h7V1.07z"/></svg>
+      <span>Mouse Trackpad</span>
+    </button>
+  </div>
+
+  <!-- Unified Interactive Pad (Apple TV Clickpad & Trackpad) -->
+  <div class="pad-wrapper">
+    <div class="unified-pad" id="touchPad">
+      <!-- Directional indicators -->
+      <div class="pad-arrow pad-arrow-up" id="arrowUp">
+        <svg viewBox="0 0 24 24"><path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/></svg>
+      </div>
+      <div class="pad-arrow pad-arrow-left" id="arrowLeft">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </div>
+      <div class="pad-arrow pad-arrow-right" id="arrowRight">
+        <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </div>
+      <div class="pad-arrow pad-arrow-down" id="arrowDown">
+        <svg viewBox="0 0 24 24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>
+      </div>
+
+      <!-- Center Click Area -->
+      <div class="pad-center" id="padCenter">
+        OK
+      </div>
+
+      <!-- Mouse Trackpad Overlay Indicator -->
+      <div class="mouse-indicator">
+        <svg viewBox="0 0 24 24"><path d="M9 3L3 18l7-3 4 8 3-1.5-4-8 7.5-.5L9 3z"/></svg>
+        <span>Trackpad Active</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Essential Navigation Row -->
+  <div class="nav-row">
+    <button class="btn btn-nav" onclick="sendKey(4)" title="Back">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      Back
+    </button>
+    <button class="btn btn-nav home-btn" onclick="sendKey(3)" title="Home">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      Home
+    </button>
+    <button class="btn btn-nav" onclick="sendKey(82)" title="Menu">
+      <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+      Menu
+    </button>
+  </div>
+
+  <!-- Volume & Media Controls -->
+  <div class="controls-row">
+    <!-- Volume Rocker -->
+    <div class="volume-pillar">
+      <button class="btn-rocker" onclick="sendKey(24)" title="Volume Up">
+        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <span>VOL</span>
+      </button>
+      <div class="rocker-divider"></div>
+      <button class="btn-rocker" onclick="sendKey(25)" title="Volume Down">
+        <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+        <span>VOL</span>
+      </button>
+    </div>
+
+    <!-- Media Controls -->
+    <div class="media-card">
+      <button class="btn btn-play" onclick="sendKey(85)" title="Play / Pause">
+        <svg viewBox="0 0 24 24" style="width:22px;height:22px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        <span>Play / Pause</span>
+      </button>
+      <div class="media-subrow">
+        <button class="btn btn-media" onclick="sendKey(89)" title="Rewind">
+          <svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg>
+        </button>
+        <button class="btn btn-media" onclick="sendKey(90)" title="Fast Forward">
+          <svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick App Launcher Dock -->
+  <div class="app-dock">
+    <button class="app-tile app-yt" onclick="launchApp('org.smarttube.stable')" title="YouTube">
+      <svg viewBox="0 0 24 24" style="fill:#ff0000;"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg>
+    </button>
+    <button class="app-tile app-music" onclick="launchApp('io.github.jqssun.airplay')" title="Apple TV AirPlay">
+      <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+    </button>
+    <button class="app-tile app-files" onclick="launchApp('com.hivendor.explorer')" title="Files">
+      <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+    </button>
+    <button class="app-tile app-facetime" onclick="launchApp('com.finalwire.aida64')" title="FaceTime / Info">
+      <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+    </button>
+    <button class="app-tile app-settings" onclick="launchApp('com.android.tv.settings')" title="Settings">
+      <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+    </button>
+  </div>
+
+  <!-- Collapsible Number Pad -->
+  <div class="numpad-toggle-bar">
+    <button class="toggle-numpad-btn" onclick="toggleNumpad()">[ 1 2 3 Keypad ]</button>
+  </div>
+  <div class="numpad" id="numpad">
+    <button class="btn btn-num" onclick="sendKey(8)">1</button>
+    <button class="btn btn-num" onclick="sendKey(9)">2</button>
+    <button class="btn btn-num" onclick="sendKey(10)">3</button>
+    <button class="btn btn-num" onclick="sendKey(11)">4</button>
+    <button class="btn btn-num" onclick="sendKey(12)">5</button>
+    <button class="btn btn-num" onclick="sendKey(13)">6</button>
+    <button class="btn btn-num" onclick="sendKey(14)">7</button>
+    <button class="btn btn-num" onclick="sendKey(15)">8</button>
+    <button class="btn btn-num" onclick="sendKey(16)">9</button>
+    <button class="btn btn-num" onclick="sendKey(66)" style="font-size:12px;">↵</button>
+    <button class="btn btn-num" onclick="sendKey(7)">0</button>
+    <button class="btn btn-num" onclick="sendKey(67)">⌫</button>
+  </div>
+</div>
+
+<!-- Wallpaper Sheet Modal -->
+<div class="modal-overlay" id="wallpaperModal" onclick="closeWallpaperModal(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="sheet-header">
+      <div class="sheet-title">
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:var(--accent-cyan);"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+        <span>TV Wallpaper</span>
+      </div>
+      <button type="button" class="sheet-close" onclick="closeWallpaperModal()">✕</button>
+    </div>
+
+    <input type="file" id="wallpaperInput" accept="image/*" style="display:none;" onchange="onWallpaperPicked(event)">
+    
+    <div class="upload-box" onclick="document.getElementById('wallpaperInput').click()">
+      <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+      <div class="upload-text">Choose Photo from Phone</div>
+      <div class="upload-sub">Camera Roll · Downloads · Auto-optimized to 1080p</div>
+    </div>
+
+    <div class="status-pill" id="wallpaperStatus"></div>
+
+    <div class="presets-section-title">Apple TV Presets</div>
+    <div class="presets-grid">
+      <div class="preset-card" onclick="applyPreset('01_pickleball.jpg')">
+        <span class="preset-emoji">🎾</span>
+        <span>Pickleballs</span>
+      </div>
+      <div class="preset-card" onclick="applyPreset('02_aurora.jpg')">
+        <span class="preset-emoji">🌌</span>
+        <span>Aurora</span>
+      </div>
+      <div class="preset-card" onclick="applyPreset('03_city_lights.jpg')">
+        <span class="preset-emoji">🌃</span>
+        <span>City Lights</span>
+      </div>
+      <div class="preset-card" onclick="applyPreset('04_above_clouds.jpg')">
+        <span class="preset-emoji">☁️</span>
+        <span>Sunset Clouds</span>
+      </div>
+      <div class="preset-card" style="grid-column: span 2;" onclick="applyPreset('05_dusk_peaks.jpg')">
+        <span class="preset-emoji">🏔️</span>
+        <span>Dusk Mountain Peaks</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let lastTriggerTime = 0;
+  let currentMode = 'swipe'; // 'swipe' or 'mouse'
+
+  function openWallpaperModal() {
+    haptic();
+    document.getElementById('wallpaperModal').classList.add('open');
+  }
+
+  function closeWallpaperModal(e) {
+    if (e && e.target !== e.currentTarget) return;
+    haptic();
+    document.getElementById('wallpaperModal').classList.remove('open');
+    const status = document.getElementById('wallpaperStatus');
+    status.style.display = 'none';
+  }
+
+  function showWallpaperStatus(msg, isSuccess = false) {
+    const el = document.getElementById('wallpaperStatus');
+    el.style.display = 'block';
+    el.style.color = isSuccess ? 'var(--accent-green)' : 'var(--accent-cyan)';
+    el.textContent = msg;
+  }
+
+  function applyPreset(filename) {
+    haptic(15);
+    showWallpaperStatus("Applying preset...");
+    fetch('/wallpaper', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ preset: filename })
+    })
+    .then(r => r.json())
+    .then(res => {
+      if (res.status === 'ok') {
+        showWallpaperStatus("Wallpaper Applied! ✨", true);
+        haptic(25);
+        setTimeout(closeWallpaperModal, 1200);
+      } else {
+        showWallpaperStatus("Error: " + (res.message || "Failed"));
+      }
+    })
+    .catch(err => {
+      showWallpaperStatus("Sync error: " + err);
+    });
+  }
+
+  function onWallpaperPicked(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    haptic(15);
+    showWallpaperStatus("Optimizing photo on phone...");
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        const maxW = 1920, maxH = 1080;
+        let w = img.width, h = img.height;
+        if (w > maxW || h > maxH) {
+          const ratio = Math.min(maxW / w, maxH / h);
+          w = Math.round(w * ratio);
+          h = Math.round(h * ratio);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+
+        const jpegBase64 = canvas.toDataURL('image/jpeg', 0.84);
+        showWallpaperStatus("Syncing to TV over Wi-Fi...");
+
+        fetch('/wallpaper', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: jpegBase64 })
+        })
+        .then(r => r.json())
+        .then(res => {
+          if (res.status === 'ok') {
+            showWallpaperStatus("Wallpaper Applied! ✨", true);
+            haptic(30);
+            setTimeout(closeWallpaperModal, 1200);
+          } else {
+            showWallpaperStatus("Error: " + (res.message || "Failed"));
+          }
+        })
+        .catch(err => {
+          showWallpaperStatus("Sync failed: " + err);
+        });
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function haptic(ms = 12) {
+    if (navigator.vibrate) {
+      try { navigator.vibrate(ms); } catch (e) {}
+    }
+  }
+
+  function setMode(mode) {
+    currentMode = mode;
+    haptic(15);
+    const btnSwipe = document.getElementById('btnSwipeMode');
+    const btnMouse = document.getElementById('btnMouseMode');
+    const pad = document.getElementById('touchPad');
+    if (mode === 'swipe') {
+      btnSwipe.classList.add('active');
+      btnMouse.classList.remove('active');
+      pad.classList.remove('mouse-mode');
+    } else {
+      btnMouse.classList.add('active');
+      btnSwipe.classList.remove('active');
+      pad.classList.add('mouse-mode');
+    }
+  }
+
+  function sendKey(code) {
+    const now = Date.now();
+    if (now - lastTriggerTime < 35) return;
+    lastTriggerTime = now;
+    haptic(10);
+    fetch('/key?c=' + code, { method: 'GET', keepalive: true }).catch(() => {});
+  }
+
+  function sendText(e) {
+    if (e) e.preventDefault();
+    haptic();
+    const input = document.getElementById('tvInput');
+    const text = input.value;
+    if (!text) return;
+    fetch('/text?q=' + encodeURIComponent(text), { method: 'GET', keepalive: true })
+      .then(() => { input.value = ''; })
+      .catch(() => {});
+  }
+
+  function launchApp(pkg) {
+    haptic();
+    fetch('/launch?pkg=' + encodeURIComponent(pkg), { method: 'GET', keepalive: true }).catch(() => {});
+  }
+
+  function toggleNumpad() {
+    haptic();
+    const np = document.getElementById('numpad');
+    np.classList.toggle('open');
+  }
+
+  function flashArrow(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('active');
+    setTimeout(() => el.classList.remove('active'), 140);
+  }
+
+  // Touchpad Gestures
+  const pad = document.getElementById('touchPad');
+  const padCenter = document.getElementById('padCenter');
+  let startX = 0, startY = 0;
+  let lastX = 0, lastY = 0;
+  let startTime = 0;
+  let hasSwiped = false;
+  let movePending = false;
+  let pendingDx = 0, pendingDy = 0;
+
+  pad.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    if (e.touches.length === 1) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      lastX = startX;
+      lastY = startY;
+      startTime = Date.now();
+      hasSwiped = false;
+      if (currentMode === 'swipe') {
+        padCenter.classList.add('pressed');
+      }
+    }
+  }, { passive: false });
+
+  pad.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (e.touches.length === 1) {
+      const curX = e.touches[0].clientX;
+      const curY = e.touches[0].clientY;
+      const totalDx = curX - startX;
+      const totalDy = curY - startY;
+
+      if (currentMode === 'swipe') {
+        const threshold = 28; // px threshold for swipe
+        if (Math.abs(totalDx) > threshold || Math.abs(totalDy) > threshold) {
+          hasSwiped = true;
+          if (Math.abs(totalDx) > Math.abs(totalDy)) {
+            if (totalDx > 0) {
+              flashArrow('arrowRight');
+              sendKey(22); // Right
+            } else {
+              flashArrow('arrowLeft');
+              sendKey(21); // Left
+            }
+          } else {
+            if (totalDy > 0) {
+              flashArrow('arrowDown');
+              sendKey(20); // Down
+            } else {
+              flashArrow('arrowUp');
+              sendKey(19); // Up
+            }
+          }
+          // Reset start point to enable continuous smooth swiping across lists!
+          startX = curX;
+          startY = curY;
+        }
+      } else {
+        // Mouse Trackpad Mode
+        const rawDx = curX - lastX;
+        const rawDy = curY - lastY;
+        lastX = curX;
+        lastY = curY;
+
+        // Smooth acceleration curve
+        const speed = Math.hypot(rawDx, rawDy);
+        const factor = speed > 12 ? 2.5 : (speed > 4 ? 1.8 : 1.3);
+        pendingDx += rawDx * factor;
+        pendingDy += rawDy * factor;
+
+        if (!movePending) {
+          movePending = true;
+          requestAnimationFrame(flushMouseMove);
+        }
+      }
+    } else if (e.touches.length === 2 && currentMode === 'mouse') {
+      // 2-finger scroll
+      const curY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+      const dy = curY - lastY;
+      lastY = curY;
+      if (Math.abs(dy) > 8) {
+        fetch('/mouse?scroll=' + (dy > 0 ? 1 : -1), { keepalive: true }).catch(() => {});
+      }
+    }
+  }, { passive: false });
+
+  function flushMouseMove() {
+    movePending = false;
+    const dx = Math.round(pendingDx);
+    const dy = Math.round(pendingDy);
+    pendingDx = 0;
+    pendingDy = 0;
+    if (dx !== 0 || dy !== 0) {
+      fetch('/mouse?dx=' + dx + '&dy=' + dy, { keepalive: true }).catch(() => {});
+    }
+  }
+
+  pad.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    padCenter.classList.remove('pressed');
+    const elapsed = Date.now() - startTime;
+    if (!hasSwiped && elapsed < 350) {
+      if (currentMode === 'swipe') {
+        // Tapping anywhere on the circle/box clicks OK / Select!
+        haptic(16);
+        sendKey(23);
+      } else {
+        // Tapping anywhere on trackpad clicks Left Mouse Button!
+        haptic(16);
+        fetch('/mouse?click=1', { keepalive: true }).catch(() => {});
+      }
+    }
+  }, { passive: false });
+
+  // Fast-trigger for standard buttons (pointerdown)
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('button[onclick^="sendKey"]').forEach(btn => {
+      const match = btn.getAttribute('onclick').match(/sendKey\((\d+)\)/);
+      if (match) {
+        const code = parseInt(match[1], 10);
+        btn.removeAttribute('onclick');
+        btn.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          sendKey(code);
+        }, { passive: false });
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+        });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

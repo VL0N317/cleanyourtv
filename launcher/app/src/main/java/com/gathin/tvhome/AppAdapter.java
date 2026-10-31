@@ -96,8 +96,8 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     static final float FOCUS_SCALE = 1.10f;
-    /** Design size of a tile (dp); tiles shrink from here when the columns don't fit, see tileWidthPx. */
-    static final float DESIGN_W_DP = 180f, DESIGN_H_DP = 101f;
+    /** Design size of a tile (dp); 160x100 dp (1.6:1 ratio) matching Apple TV tvOS cards. */
+    static final float DESIGN_W_DP = 160f, DESIGN_H_DP = 100f;
 
     /**
      * Tile width for a grid of this inner width: the cell minus room for the focus zoom and the glass
@@ -263,6 +263,7 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         // Copy before merging: LibraryApps.load() may return an immutable empty set (#419).
         Set<String> added = new HashSet<>(LibraryApps.load(ctx));
         added.addAll(libraryPreload);
+        added.addAll(favourites);
         Set<String> removed = LibraryApps.loadRemoved(ctx);
         if (!added.isEmpty()) {
             Set<String> seen = new HashSet<>(tvPackages);
@@ -299,7 +300,7 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             // The icon is only drawn (and sampled for the glow) when there is no banner, so a tile with a
             // banner skips loading and decoding it.
-            Drawable icon = banner == null ? ri.loadIcon(pm) : null;
+            Drawable icon = banner == null ? customIcon(pkg, pm, ri) : null;
             if (card != null) {
                 fresh.add(new Entry(Entry.CARD, label, component, banner, icon, card.caption, card.accent));
             } else {
@@ -341,6 +342,50 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     /** A banner_* drawable bundled with the launcher, or null for none or a name that is not one. */
+    private Drawable customIcon(String pkg, PackageManager pm, ResolveInfo ri) {
+        if ("org.smarttube.stable".equals(pkg) || "com.google.android.youtube".equals(pkg)) {
+            return ctx.getDrawable(R.drawable.ic_youtube_dark);
+        }
+        if ("io.github.jqssun.airplay".equals(pkg)) {
+            return ctx.getDrawable(R.drawable.ic_apple_music);
+        }
+        if ("com.hivendor.explorer".equals(pkg) || "com.android.documentsui".equals(pkg)) {
+            return ctx.getDrawable(R.drawable.ic_apple_folder);
+        }
+        if ("org.fdroid.fdroid".equals(pkg)) {
+            return ctx.getDrawable(R.drawable.ic_apple_appstore);
+        }
+        if ("com.finalwire.aida64".equals(pkg)) {
+            return ctx.getDrawable(R.drawable.ic_apple_facetime);
+        }
+        if ("com.android.tv.settings".equals(pkg) || "com.smart.setting".equals(pkg) || "com.android.settings".equals(pkg)) {
+            return ctx.getDrawable(R.drawable.ic_apple_settings);
+        }
+        return ri.loadIcon(pm);
+    }
+
+    private static int[] customBackdrop(String pkg) {
+        if ("org.smarttube.stable".equals(pkg) || "com.google.android.youtube".equals(pkg)) {
+            return new int[]{0xFF1C1C1E, 0xFF0E0E10};
+        }
+        if ("io.github.jqssun.airplay".equals(pkg)) {
+            return new int[]{0xFFFA2D48, 0xFFD60017};
+        }
+        if ("com.hivendor.explorer".equals(pkg) || "com.android.documentsui".equals(pkg)) {
+            return new int[]{0xFF0A84FF, 0xFF0055B3};
+        }
+        if ("org.fdroid.fdroid".equals(pkg)) {
+            return new int[]{0xFF007AFF, 0xFF004CB3};
+        }
+        if ("com.finalwire.aida64".equals(pkg)) {
+            return new int[]{0xFF34C759, 0xFF248A3D};
+        }
+        if ("com.android.tv.settings".equals(pkg) || "com.smart.setting".equals(pkg) || "com.android.settings".equals(pkg)) {
+            return new int[]{0xFFE5E5EA, 0xFFC7C7CC};
+        }
+        return null;
+    }
+
     private Drawable bundledBanner(String name) {
         if (name == null || !name.startsWith("banner_")) return null;
         int id = ctx.getResources().getIdentifier(name, "drawable", ctx.getPackageName());
@@ -464,7 +509,10 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         // nothing on every frame; keep it under banners with transparent parts and under icon tiles.
         h.card.setBackground(e.banner != null && e.banner.getOpacity() == PixelFormat.OPAQUE ? null : h.cardBackground);
         if (uniformTiles && e.banner == null) {
-            if (e.backdrop == null) e.backdrop = backdrop(e.icon, ambientColorAt(position));
+            if (e.backdrop == null) {
+                e.backdrop = customBackdrop(e.pkg);
+                if (e.backdrop == null) e.backdrop = backdrop(e.icon, ambientColorAt(position));
+            }
             h.card.setBackground(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, e.backdrop));
         }
         if (e.banner != null) {
@@ -844,9 +892,9 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return Color.HSVToColor(hsv);
     }
 
-    /** Corner radius for a tile of this width: 16dp at the design width, proportionally less when smaller. */
+    /** Corner radius for a tile of this width: 18dp at the design width, proportionally less when smaller. */
     static float cornerRadius(int tileWidthPx, float density) {
-        return 16f * density * Math.min(1f, tileWidthPx / (DESIGN_W_DP * density));
+        return 18f * density * Math.min(1f, tileWidthPx / (DESIGN_W_DP * density));
     }
 
     static final class Holder extends RecyclerView.ViewHolder {

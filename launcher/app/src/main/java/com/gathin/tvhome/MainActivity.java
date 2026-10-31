@@ -95,6 +95,18 @@ import java.util.Set;
  * tvOS style home: black, a pinned dock row, an app grid, and one glass highlight that springs between tiles.
  */
 public class MainActivity extends Activity implements AppAdapter.TileListener {
+    public static volatile MainActivity instance;
+
+    public static void updateWallpaper(java.io.File file) {
+        MainActivity act = instance;
+        if (act != null) {
+            act.runOnUiThread(() -> {
+                if (act.wallpaperPlayer != null) {
+                    act.wallpaperPlayer.loadCustomWallpaper(file);
+                }
+            });
+        }
+    }
     @Override
     protected void attachBaseContext(android.content.Context base) {
         super.attachBaseContext(LauncherLocale.wrap(base));   // locale
@@ -383,6 +395,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        instance = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         density = getResources().getDisplayMetrics().density;
@@ -393,6 +406,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         // restore_key_services: after a force stop, put back the remote's accessibility helpers that Android took
         // off the list (needs WRITE_SECURE_SETTINGS, granted by build-and-install with RESTORE_KEY_SERVICES=1).
         if (cfg.restoreKeyServices) ServiceRepair.restore(this);
+        WebRemoteService.start(this);
         settingsRevision = settingsRevision();
         applyViewInputsHandler(cfg.handleViewInputs);
         settingsKeycodes = cfg.settingsKeycodes;
@@ -703,6 +717,24 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         btnInputs = findViewById(R.id.btnInputs);
         View btnSettings = findViewById(R.id.btnSettings);
         btnInputs.setOnClickListener(v -> showInputs());
+        View btnProfile = findViewById(R.id.btnProfile);
+        if (btnProfile != null) {
+            btnProfile.setOnClickListener(v -> cycleWallpaperPreset());
+            btnProfile.setOnKeyListener((v, keyCode, event) -> {
+                if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+                if (keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) return true;
+                if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                    focusTile(singleRow ? lastFocused : lastFocused % COLUMNS);
+                    return true;
+                }
+                if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                    View next = btnWifi.getVisibility() == View.VISIBLE ? btnWifi : btnSettings;
+                    if (next != null) next.requestFocus();
+                    return true;
+                }
+                return false;
+            });
+        }
         btnWifi.setOnClickListener(v -> openNetworkPill());
         btnVpn.setOnClickListener(v -> openVpnPill());
         btnWifi.setOnLongClickListener(v -> {
@@ -786,7 +818,16 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             int firstButton = btnInputs.getVisibility() == View.VISIBLE ? R.id.btnInputs : firstTopButton().getId();
             int leftButton = rtlMenuBar ? R.id.btnSettings : firstButton;
             int rightButton = rtlMenuBar ? firstButton : R.id.btnSettings;
-            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) return v.getId() == leftButton;
+            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                if (v.getId() == leftButton) {
+                    View profile = findViewById(R.id.btnProfile);
+                    if (profile != null && profile.getVisibility() == View.VISIBLE) {
+                        profile.requestFocus();
+                        return true;
+                    }
+                    return true;
+                }
+            }
             return keyCode == KeyEvent.KEYCODE_DPAD_RIGHT && v.getId() == rightButton;
         };
         btnInputs.setOnKeyListener(pillKeys);
@@ -1209,6 +1250,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
 
     @Override
     protected void onDestroy() {
+        if (instance == this) instance = null;
         super.onDestroy();
         unregisterReceiver(packageReceiver);
         wallpaperPlayer.close();
@@ -2298,6 +2340,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.topMargin = Math.round(4 * density);
+        lp.gravity = Gravity.CENTER_HORIZONTAL;
         if (getResources().getBoolean(R.bool.rtl_menu_bar)) {
             // Date and clock flush right; the greeting stays left and follows the clock by translation.
             lp.gravity = Gravity.RIGHT;
@@ -2771,6 +2814,38 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         g += (int) ((255 - g) * amount);
         b += (int) ((255 - b) * amount);
         return 0xFF000000 | (r << 16) | (g << 8) | b;
+    }
+
+    private int currentPresetIndex = 0;
+
+    private void cycleWallpaperPreset() {
+        java.io.File wallpapersDir = new java.io.File(getExternalFilesDir(null), "wallpapers");
+        if (!wallpapersDir.exists()) return;
+        java.io.File[] list = wallpapersDir.listFiles((d, name) -> name.endsWith(".jpg") || name.endsWith(".png"));
+        if (list == null || list.length == 0) return;
+        java.util.Arrays.sort(list, (a, b) -> a.getName().compareTo(b.getName()));
+        currentPresetIndex = (currentPresetIndex + 1) % list.length;
+        java.io.File chosen = list[currentPresetIndex];
+        java.io.File dest = new java.io.File(getExternalFilesDir(null), "wallpaper.jpg");
+        try {
+            copyFile(chosen, dest);
+            if (wallpaperPlayer != null) {
+                wallpaperPlayer.loadCustomWallpaper(dest);
+            }
+            String name = chosen.getName().replace(".jpg", "").replace("_", " ").toUpperCase();
+            android.widget.Toast.makeText(this, "Wallpaper: " + name + "\nUpload custom from phone at 192.168.1.144:8080", android.widget.Toast.LENGTH_SHORT).show();
+        } catch (Exception ignored) {}
+    }
+
+    private static void copyFile(java.io.File src, java.io.File dst) throws java.io.IOException {
+        try (java.io.InputStream in = new java.io.FileInputStream(src);
+             java.io.OutputStream out = new java.io.FileOutputStream(dst)) {
+            byte[] buf = new byte[8192];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+        }
     }
 
     /**

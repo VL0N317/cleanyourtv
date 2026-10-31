@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <!-- Back folder tab -->
+    <path
+        android:fillColor="#64B5F6"
+        android:pathData="M10,16 A4,4 0 0,1 14,12 L26,12 A4,4 0 0,1 29,14 L34,19 L50,19 A4,4 0 0,1 54,23 L54,46 A4,4 0 0,1 50,50 L14,50 A4,4 0 0,1 10,46 Z" />
+    <!-- White document inside -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M16,18 L48,18 A2,2 0 0,1 50,20 L50,30 L14,30 L14,20 A2,2 0 0,1 16,18 Z" />
+    <!-- Front folder flap -->
+    <path
+        android:fillColor="#2196F3"
+        android:pathData="M10,24 A4,4 0 0,1 14,20 L50,20 A4,4 0 0,1 54,24 L54,46 A4,4 0 0,1 50,50 L14,50 A4,4 0 0,1 10,46 Z" />
+</vector>
