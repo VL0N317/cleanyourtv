@@ -1,5 +1,5 @@
-# CleanYourTV — Apple TV Edition 🍏📺
-### Transforming a \$15 2018 Android TV Box (<1GB RAM) into an Apple TV Experience
+# CleanYourTV — tvOS Edition 📺
+### Transforming a \$15 2018 Android TV Box (<1GB RAM) into a Butter-Smooth tvOS Experience
 
 [![Platform](https://img.shields.io/badge/Platform-Android%20TV%209%20(API%2028)-3DDC84.svg?style=flat&logo=android)](https://developer.android.com/)
 [![Architecture](https://img.shields.io/badge/Architecture-ARMv7%2032--bit-blue.svg)](https://en.wikipedia.org/wiki/ARM_architecture_family)
@@ -7,17 +7,17 @@
 [![Input Latency](https://img.shields.io/badge/Input%20Latency-12ms%20(Sub--15ms)-brightgreen.svg)]()
 [![Author](https://img.shields.io/badge/Author-P%20Dheeraj%20(@VL0N317)-black.svg?logo=github)](https://github.com/VL0N317)
 
-![Apple TV Edition Home Screen](docs/apple-tv-edition/home_apple_tv.png)
+![tvOS Edition Home Screen](docs/tvos-edition/home_tvos.png)
 
 ---
 
 ## 📖 Overview
 
-The **Apple TV Edition** of CleanYourTV is an engineering overhaul designed to turn ultra-budget, unsupported legacy Android TV hardware into a blazing-fast, responsive, Apple TV-inspired living room streaming hub.
+The **tvOS Edition** of CleanYourTV is an engineering overhaul designed to turn ultra-budget, unsupported legacy Android TV hardware into a blazing-fast, responsive tvOS living room streaming hub.
 
 Originally revived from a discarded **Hivendor 5G PRO** (Amlogic P281) Android TV box whose stock software had become completely unusable (Google Play Services unsupported, official YouTube app deprecated, extreme sluggishness), this fork introduces:
 
-1. **A tvOS-inspired glassmorphic UI**: Frosted bottom dock, Apple-style iconography, dynamic 3D focus scaling, live Apple TV status typography, and a top-left profile avatar pill.
+1. **A tvOS-inspired glassmorphic UI**: Frosted bottom dock, clean modern iconography, dynamic 3D focus scaling, live tvOS status typography, and a top-left profile avatar pill.
 2. **Sub-15ms Direct Linux Kernel Input Engine**: Replacing slow Dalvik/ART shell commands with direct binary `struct input_event` injections to `/dev/input/event0` and `/dev/input/event1`.
 3. **Embedded Web Remote & 1-Tap Wallpaper Studio**: A zero-install mobile web remote with trackpad and virtual mouse mode, plus instant camera roll photo-to-TV wallpaper upload over local Wi-Fi.
 4. **AirPlay & Smart Media Streaming**: Background AirPlay mirroring for Mac/iPhone and 1080p60 video playback without Google Play bloat.
@@ -84,7 +84,7 @@ This guarantees non-root processes and CleanYourTV retain direct kernel stream a
 
 ### Latency Benchmark Comparison
 
-| Action | Standard Android (`input keyevent`) | Apple TV Edition (`LinuxInputClient`) | Latency Reduction |
+| Action | Standard Android (`input keyevent`) | tvOS Edition (`LinuxInputClient`) | Latency Reduction |
 |---|---|---|---|
 | **DPAD Navigation (Up/Down/Left/Right)** | ~1,950 ms | **12 ms – 24 ms** | **98.8% Faster** |
 | **Select / Enter Key** | ~2,100 ms | **14 ms** | **99.3% Faster** |
@@ -99,14 +99,14 @@ This guarantees non-root processes and CleanYourTV retain direct kernel stream a
 * Custom `DockDecoration.java` renders a translucent blurred backdrop container with rounded pill corners.
 * Dynamic scaling animation with high-contrast active borders when focused.
 
-### 2. Apple TV Iconography & Typography
-* Custom vector & high-resolution icons matching Apple's first-party apps:
-  * **YouTube** (Dark Apple TV themed red-pill icon)
-  * **Music** (Apple Music vibrant gradient tile)
-  * **Files** (Apple Files blue folder)
-  * **FaceTime / Hardware** (Apple FaceTime green camera tile)
-  * **Settings** (Apple TV brushed-metal gear tile)
-  * **App Store** (Apple App Store blue icon)
+### 2. tvOS Iconography & Typography
+* Custom vector & high-resolution icons matching clean tvOS styling:
+  * **YouTube** (Dark tvOS themed red-pill icon)
+  * **Music** (Vibrant gradient music tile)
+  * **Files** (Clean blue folder)
+  * **Camera / Hardware** (Clean green camera tile)
+  * **Settings** (Brushed-metal gear tile)
+  * **App Store** (Clean blue app store tile)
 * Live tvOS status clock and day/date header formatted as `5:36 WEDNESDAY 28 OCTOBER` using custom **Outfit Bold** typography.
 
 ### 3. Top-Left Profile Avatar Pill
@@ -114,15 +114,15 @@ This guarantees non-root processes and CleanYourTV retain direct kernel stream a
 * **Click to Cycle Wallpapers**: Instantly switches between bundled cinematic wallpapers without opening a menu.
 * Works seamlessly in tandem with the phone remote.
 
-![Profile Avatar Pill Navigation](docs/apple-tv-edition/avatar_pill.png)
+![Profile Avatar Pill Navigation](docs/tvos-edition/avatar_pill.png)
 
 ---
 
 ## 📱 Web Remote & 1-Tap Wallpaper Studio
 
-`WebRemoteService.java` hosts an embedded, dependency-free HTTP server on port `8080`. Pointing any phone browser on the local Wi-Fi network to `http://<tv-ip>:8080/` serves an Apple TV Remote experience:
+`WebRemoteService.java` hosts an embedded, dependency-free HTTP server on port `8080`. Pointing any phone browser on the local Wi-Fi network to `http://<tv-ip>:8080/` serves a clean tvOS Remote experience:
 
-![Phone Remote Touchpad and Controls](docs/apple-tv-edition/mouse_cursor_mode.png)
+![Phone Remote Touchpad and Controls](docs/tvos-edition/mouse_cursor_mode.png)
 
 ### Features:
 * **Haptic Trackpad & DPAD Modes**: Seamlessly switch between tactile directional buttons and a smooth swipe trackpad.
@@ -132,10 +132,10 @@ This guarantees non-root processes and CleanYourTV retain direct kernel stream a
 ### Live Captures from Phone Camera Roll Uploads
 | 3D Neon Ribbon Glow | Frank Ocean Nostalgia BMW E30 | Dynamic Aurora Preset | City Lights Preset |
 |:---:|:---:|:---:|:---:|
-| ![Neon Ribbon](docs/apple-tv-edition/wallpaper_neon_ribbon_cropped.jpg) | ![BMW Nostalgia](docs/apple-tv-edition/wallpaper_bmw_cropped.jpg) | ![Aurora](docs/apple-tv-edition/wallpaper_aurora.png) | ![City Lights](docs/apple-tv-edition/wallpaper_city.png) |
+| ![Neon Ribbon](docs/tvos-edition/wallpaper_neon_ribbon_cropped.jpg) | ![BMW Nostalgia](docs/tvos-edition/wallpaper_bmw_cropped.jpg) | ![Aurora](docs/tvos-edition/wallpaper_aurora.png) | ![City Lights](docs/tvos-edition/wallpaper_city.png) |
 
 ### Real-World Living Room Setup
-![Living Room Setup with CleanYourTV](docs/apple-tv-edition/real_setup_neon_ribbon.jpg)
+![Living Room Setup with CleanYourTV](docs/tvos-edition/real_setup_neon_ribbon.jpg)
 
 ---
 
@@ -148,13 +148,13 @@ launcher/app/src/main/
 │   ├── LinuxInputClient.java    # Direct 32-bit Linux /dev/input byte-injector
 │   ├── WebRemoteService.java    # HTTP server (port 8080), wallpaper API & remote web host
 │   ├── MainActivity.java        # Home screen, profile avatar, DPAD navigation rules
-│   ├── AppAdapter.java          # App grid renderer with Apple TV focus transitions
+│   ├── AppAdapter.java          # App grid renderer with tvOS focus transitions
 │   ├── DockDecoration.java     # Floating frosted glass dock background decorator
 │   └── WallpaperPlayer.java     # High-performance, low-RAM video & image wallpaper engine
 ├── assets/
-│   └── remote.html              # Apple TV Remote web application with camera roll upload
+│   └── remote.html              # tvOS Remote web application with camera roll upload
 └── res/
-    ├── drawable/                # Custom Apple TV icons (Music, Files, Settings, App Store)
+    ├── drawable/                # Custom tvOS icons (Music, Files, Settings, App Store)
     ├── font/outfit_bold.xml     # Clean tvOS header typography
     └── layout/activity_main.xml # Main UI hierarchy with top pills and dock
 ```
@@ -195,5 +195,5 @@ adb shell am start -n com.gathin.tvhome/.MainActivity
 ## 🤝 Credits & Acknowledgements
 
 * **Original Project**: Built on top of [CleanYourTV](https://github.com/Gathin23/cleanyourtv) by [Gathin](https://github.com/Gathin23).
-* **Apple TV Edition Overhaul**: Designed, engineered, and optimized by [P Dheeraj (@VL0N317)](https://github.com/VL0N317).
+* **tvOS Edition Overhaul**: Designed, engineered, and optimized by [P Dheeraj (@VL0N317)](https://github.com/VL0N317).
 * **SmartTube**: Special thanks to the SmartTube project for providing high-performance 1080p video decoding without Google Play Services.

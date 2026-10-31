@@ -1,17 +1,17 @@
 <p align="center">
-  <img src="docs/apple-tv-edition/home_apple_tv.png" alt="CleanYourTV Apple TV Edition on a 1GB RAM Android TV Box" width="900" style="border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);">
+  <img src="docs/tvos-edition/home_tvos.png" alt="CleanYourTV tvOS Edition on a 1GB RAM Android TV Box" width="900" style="border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);">
 </p>
 
-<h1 align="center">CleanYourTV — Apple TV Edition 🍏📺</h1>
+<h1 align="center">CleanYourTV — tvOS Edition 📺</h1>
 <p align="center">
-  <strong>An authentic, butter-smooth Apple TV (tvOS) experience engineered for a $15 2018 Android TV box with under 1GB of RAM.</strong>
+  <strong>An authentic, butter-smooth tvOS experience engineered for a $15 2018 Android TV box with under 1GB of RAM.</strong>
 </p>
 
 <p align="center">
   <a href="#-the-1gb-ram-engineering-story"><img src="https://img.shields.io/badge/Hardware-Amlogic%20P281%20(%3C1GB%20RAM)-orange.svg?style=flat-square" alt="Hardware"></a>
   <a href="#-sub-15ms-direct-linux-kernel-input-engine"><img src="https://img.shields.io/badge/Input%20Latency-12ms%20(Sub--15ms)-brightgreen.svg?style=flat-square" alt="Input Latency"></a>
-  <a href="#-apple-tv-os-interface-gallery"><img src="https://img.shields.io/badge/UI-Apple%20tvOS%20Glass%20Dock-007AFF.svg?style=flat-square&logo=apple" alt="tvOS UI"></a>
-  <a href="#-embedded-web-remote--1-tap-wallpaper-studio"><img src="https://img.shields.io/badge/Remote-Web%20Trackpad%20%2B%20Mouse-blueviolet.svg?style=flat-square" alt="Web Remote"></a>
+  <a href="#-the-beautiful-interface-visual-gallery"><img src="https://img.shields.io/badge/UI-tvOS%20Glass%20Dock-007AFF.svg?style=flat-square" alt="tvOS UI"></a>
+  <a href="#-zero-install-mobile-web-remote-with-mouse-pointer"><img src="https://img.shields.io/badge/Remote-Web%20Trackpad%20%2B%20Mouse-blueviolet.svg?style=flat-square" alt="Web Remote"></a>
   <a href="https://github.com/VL0N317/cleanyourtv"><img src="https://img.shields.io/badge/Built%20By-P%20Dheeraj%20(@VL0N317)-black.svg?style=flat-square&logo=github" alt="Author"></a>
   <a href="https://github.com/Gathin23/cleanyourtv"><img src="https://img.shields.io/badge/Forked%20From-CleanYourTV%20(Gathin23)-lightgrey.svg?style=flat-square" alt="Upstream"></a>
 </p>
@@ -25,7 +25,7 @@ Most modern TV interfaces (Google TV, Fire OS, Roku) are bloated with ad banners
 We took a discarded **$15 2018 Hivendor 5G PRO** (Amlogic P281 quad-core, 32-bit ARMv7, 1GB RAM) whose official YouTube app had been deprecated and Google Play Services had been blocked, and completely rebuilt its interface and input stack.
 
 ### What We Built:
-1. **Full Apple tvOS Glassmorphic UI**: Translucent blurred floating bottom dock, Apple first-party iconography, dynamic 3D focus scaling, live date/time header in Outfit Bold, and an interactive top-left profile avatar pill.
+1. **Full tvOS Glassmorphic UI**: Translucent blurred floating bottom dock, clean iconography, dynamic 3D focus scaling, live date/time header in Outfit Bold, and an interactive top-left profile avatar pill.
 2. **Sub-15ms Direct Linux Kernel Input Subsystem**: Replacing Android's sluggish Dalvik shell commands with direct binary `struct input_event` writes to `/dev/input/event0` and `event1`.
 3. **Embedded Web Remote & 1-Tap Wallpaper Studio**: Built-in HTTP server on port `8080` with haptic-like trackpad, virtual mouse pointer mode, and 1-tap phone camera roll upload directly to the TV background.
 4. **AirPlay & 1080p60 Streaming**: Restored YouTube playback with SmartTube and native background AirPlay screen mirroring from iPhone and Mac.
@@ -40,7 +40,7 @@ We took a discarded **$15 2018 Hivendor 5G PRO** (Amlogic P281 quad-core, 32-bit
 * Live status header (`5:36 WEDNESDAY 28 OCTOBER`) using custom **Outfit Bold** typography.
 
 <p align="center">
-  <img src="docs/apple-tv-edition/home_apple_tv.png" alt="CleanYourTV Apple TV Edition Main Interface" width="850" style="border-radius: 8px;">
+  <img src="docs/tvos-edition/home_tvos.png" alt="CleanYourTV tvOS Edition Main Interface" width="850" style="border-radius: 8px;">
 </p>
 
 ---
@@ -51,8 +51,8 @@ We took a discarded **$15 2018 Hivendor 5G PRO** (Amlogic P281 quad-core, 32-bit
 * Works seamlessly in tandem with the phone remote.
 
 <p align="center">
-  <img src="docs/apple-tv-edition/focus_up_avatar.png" alt="Profile Avatar Pill Focused" width="420" style="border-radius: 8px; margin-right: 10px;">
-  <img src="docs/apple-tv-edition/dock_focused.png" alt="Dock Tile Focused" width="420" style="border-radius: 8px;">
+  <img src="docs/tvos-edition/focus_up_avatar.png" alt="Profile Avatar Pill Focused" width="420" style="border-radius: 8px; margin-right: 10px;">
+  <img src="docs/tvos-edition/dock_focused.png" alt="Dock Tile Focused" width="420" style="border-radius: 8px;">
 </p>
 
 ---
@@ -62,13 +62,13 @@ We took a discarded **$15 2018 Hivendor 5G PRO** (Amlogic P281 quad-core, 32-bit
 * Below are real captures of custom wallpapers running live on the TV box:
 
 <p align="center">
-  <img src="docs/apple-tv-edition/wallpaper_neon_ribbon_cropped.jpg" alt="3D Neon Ribbon Wallpaper on TV" width="420" style="border-radius: 8px; margin-right: 10px;">
-  <img src="docs/apple-tv-edition/wallpaper_bmw_cropped.jpg" alt="Frank Ocean Nostalgia Ultra BMW E30 Wallpaper on TV" width="420" style="border-radius: 8px;">
+  <img src="docs/tvos-edition/wallpaper_neon_ribbon_cropped.jpg" alt="3D Neon Ribbon Wallpaper on TV" width="420" style="border-radius: 8px; margin-right: 10px;">
+  <img src="docs/tvos-edition/wallpaper_bmw_cropped.jpg" alt="Frank Ocean Nostalgia Ultra BMW E30 Wallpaper on TV" width="420" style="border-radius: 8px;">
 </p>
 
 | 3D Neon Ribbon Glow | Frank Ocean Nostalgia BMW E30 | Dynamic Aurora Preset | City Lights Preset |
 |:---:|:---:|:---:|:---:|
-| <img src="docs/apple-tv-edition/wallpaper_neon_ribbon_cropped.jpg" width="200" style="border-radius: 6px;"> | <img src="docs/apple-tv-edition/wallpaper_bmw_cropped.jpg" width="200" style="border-radius: 6px;"> | <img src="docs/apple-tv-edition/wallpaper_aurora.png" width="200" style="border-radius: 6px;"> | <img src="docs/apple-tv-edition/wallpaper_city.png" width="200" style="border-radius: 6px;"> |
+| <img src="docs/tvos-edition/wallpaper_neon_ribbon_cropped.jpg" width="200" style="border-radius: 6px;"> | <img src="docs/tvos-edition/wallpaper_bmw_cropped.jpg" width="200" style="border-radius: 6px;"> | <img src="docs/tvos-edition/wallpaper_aurora.png" width="200" style="border-radius: 6px;"> | <img src="docs/tvos-edition/wallpaper_city.png" width="200" style="border-radius: 6px;"> |
 
 ---
 
@@ -76,7 +76,7 @@ We took a discarded **$15 2018 Hivendor 5G PRO** (Amlogic P281 quad-core, 32-bit
 * A real-world look at the \$15 TV box driving a vibrant living room display with custom neon wallpaper and pair-programming workstation:
 
 <p align="center">
-  <img src="docs/apple-tv-edition/real_setup_neon_ribbon.jpg" alt="Real Living Room Setup with CleanYourTV" width="550" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.6);">
+  <img src="docs/tvos-edition/real_setup_neon_ribbon.jpg" alt="Real Living Room Setup with CleanYourTV" width="550" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.6);">
 </p>
 
 ---
@@ -86,7 +86,7 @@ We took a discarded **$15 2018 Hivendor 5G PRO** (Amlogic P281 quad-core, 32-bit
 * Features a swipe trackpad, directional DPAD, volume controls, home/back triggers, and a **real-time virtual mouse mode** for sideloaded mobile apps.
 
 <p align="center">
-  <img src="docs/apple-tv-edition/mouse_cursor_mode.png" alt="Mouse Cursor Mode on Android TV" width="700" style="border-radius: 8px;">
+  <img src="docs/tvos-edition/mouse_cursor_mode.png" alt="Mouse Cursor Mode on Android TV" width="700" style="border-radius: 8px;">
 </p>
 
 ---
@@ -129,7 +129,7 @@ struct input_event {
 
 ### Latency Benchmark Comparison
 
-| Action | Standard Android (`input keyevent`) | Apple TV Edition (`LinuxInputClient`) | Latency Reduction |
+| Action | Standard Android (`input keyevent`) | tvOS Edition (`LinuxInputClient`) | Latency Reduction |
 |---|---|---|---|
 | **DPAD Navigation (Up/Down/Left/Right)** | ~1,950 ms | **12 ms – 24 ms** | **98.8% Faster** |
 | **Select / Enter Key** | ~2,100 ms | **14 ms** | **99.3% Faster** |
@@ -148,7 +148,7 @@ Even after cold power-offs, the launcher immediately opens the direct Linux stre
 
 On a device with ~950 MB of usable physical RAM, keeping the memory budget tight is critical so video players have plenty of headroom for 1080p60 buffer frames:
 
-| Component | Stock Firmware / Leanback | Apple TV Edition CleanYourTV | Memory Saved |
+| Component | Stock Firmware / Leanback | tvOS Edition CleanYourTV | Memory Saved |
 |---|---|---|---|
 | **Home Screen Launcher** | 180 MB – 240 MB | **~42 MB RSS** | ~170 MB saved |
 | **Embedded Web Remote & HTTP Server** | External app (80 MB+) | **~12 MB RSS (in-process)** | ~68 MB saved |
@@ -187,5 +187,5 @@ adb shell am start -n com.gathin.tvhome/.MainActivity
 ## 🤝 Upstream Credits & Attribution
 
 * **Upstream Project**: Built on the open-source [CleanYourTV](https://github.com/Gathin23/cleanyourtv) project by [Gathin](https://github.com/Gathin23).
-* **Apple TV Edition Engineering & Overhaul**: Designed, optimized, and built for legacy Amlogic hardware by [P Dheeraj (@VL0N317)](https://github.com/VL0N317).
+* **tvOS Edition Engineering & Overhaul**: Designed, optimized, and built for legacy Amlogic hardware by [P Dheeraj (@VL0N317)](https://github.com/VL0N317).
 * **Special Thanks**: To the SmartTube and AirPlay reverse-engineering communities for making lightweight media playback possible on older Android architectures.
