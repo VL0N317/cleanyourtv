@@ -57,16 +57,31 @@ We took a discarded **$15 2018 Hivendor 5G PRO** (Amlogic P281 quad-core, 32-bit
 
 ---
 
-### 3. Dynamic Cinematic Wallpapers & Phone Camera Roll Uploads
-* Switch between high-definition bundled presets or upload any image from your phone with 1 tap.
+### 3. Custom Wallpapers Uploaded Live From Phone (Real TV Display)
+* Users can push any wallpaper from their phone's camera roll straight to the TV over local Wi-Fi in under a second.
+* Below are real captures of custom wallpapers running live on the TV box:
 
-| Dynamic Aurora Preset | City Lights Preset | Phone Uploaded Custom Wallpaper |
-|:---:|:---:|:---:|
-| <img src="docs/apple-tv-edition/wallpaper_aurora.png" width="270" style="border-radius: 6px;"> | <img src="docs/apple-tv-edition/wallpaper_city.png" width="270" style="border-radius: 6px;"> | <img src="docs/apple-tv-edition/wallpaper_phone_upload.png" width="270" style="border-radius: 6px;"> |
+<p align="center">
+  <img src="docs/apple-tv-edition/wallpaper_neon_ribbon_cropped.jpg" alt="3D Neon Ribbon Wallpaper on TV" width="420" style="border-radius: 8px; margin-right: 10px;">
+  <img src="docs/apple-tv-edition/wallpaper_bmw_cropped.jpg" alt="Frank Ocean Nostalgia Ultra BMW E30 Wallpaper on TV" width="420" style="border-radius: 8px;">
+</p>
+
+| 3D Neon Ribbon Glow | Frank Ocean Nostalgia BMW E30 | Dynamic Aurora Preset | City Lights Preset |
+|:---:|:---:|:---:|:---:|
+| <img src="docs/apple-tv-edition/wallpaper_neon_ribbon_cropped.jpg" width="200" style="border-radius: 6px;"> | <img src="docs/apple-tv-edition/wallpaper_bmw_cropped.jpg" width="200" style="border-radius: 6px;"> | <img src="docs/apple-tv-edition/wallpaper_aurora.png" width="200" style="border-radius: 6px;"> | <img src="docs/apple-tv-edition/wallpaper_city.png" width="200" style="border-radius: 6px;"> |
 
 ---
 
-### 4. Zero-Install Mobile Web Remote with Mouse Pointer
+### 4. Real Living Room Setup in Action
+* A real-world look at the \$15 TV box driving a vibrant living room display with custom neon wallpaper and pair-programming workstation:
+
+<p align="center">
+  <img src="docs/apple-tv-edition/real_setup_neon_ribbon.jpg" alt="Real Living Room Setup with CleanYourTV" width="550" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.6);">
+</p>
+
+---
+
+### 5. Zero-Install Mobile Web Remote with Mouse Pointer
 * Served from `http://<tv-ip>:8080/` to any smartphone on your local Wi-Fi.
 * Features a swipe trackpad, directional DPAD, volume controls, home/back triggers, and a **real-time virtual mouse mode** for sideloaded mobile apps.
 

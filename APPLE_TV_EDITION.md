@@ -129,9 +129,13 @@ This guarantees non-root processes and CleanYourTV retain direct kernel stream a
 * **Virtual Mouse Pointer**: Real-time cursor navigation for mobile-ported apps requiring mouse clicks.
 * **1-Tap Photo Upload**: Select any photo or wallpaper on your smartphone camera roll. The web remote encodes the image to Base64, uploads it to `/sdcard/wallpapers/custom.jpg`, and instructs `WallpaperPlayer` to immediately switch backgrounds without closing running apps.
 
-| Dynamic Aurora Preset | City Lights Preset | Phone Uploaded Custom Wallpaper |
-|---|---|---|
-| ![Aurora](docs/apple-tv-edition/wallpaper_aurora.png) | ![City Lights](docs/apple-tv-edition/wallpaper_city.png) | ![Custom Upload](docs/apple-tv-edition/wallpaper_phone_upload.png) |
+### Live Captures from Phone Camera Roll Uploads
+| 3D Neon Ribbon Glow | Frank Ocean Nostalgia BMW E30 | Dynamic Aurora Preset | City Lights Preset |
+|:---:|:---:|:---:|:---:|
+| ![Neon Ribbon](docs/apple-tv-edition/wallpaper_neon_ribbon_cropped.jpg) | ![BMW Nostalgia](docs/apple-tv-edition/wallpaper_bmw_cropped.jpg) | ![Aurora](docs/apple-tv-edition/wallpaper_aurora.png) | ![City Lights](docs/apple-tv-edition/wallpaper_city.png) |
+
+### Real-World Living Room Setup
+![Living Room Setup with CleanYourTV](docs/apple-tv-edition/real_setup_neon_ribbon.jpg)
 
 ---
 
